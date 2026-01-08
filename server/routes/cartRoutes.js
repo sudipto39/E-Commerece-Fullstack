@@ -1,14 +1,15 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const cartController = require('../controllers/cartController');
-const auth = require('../middleware/auth');
+const cartController = require("../controllers/cartController");
+const auth = require("../middleware/auth");
 
 router.use(auth.protect);
 
-router.get('/', cartController.getCart);
-router.post('/add', cartController.addToCart);
-router.patch('/update', cartController.updateCartItem);
-router.delete('/remove', cartController.removeFromCart);
-router.delete('/clear', cartController.clearCart);
+router
+  .get("/", auth.protect, cartController.getCart)
+  .post("/add", auth.protect, cartController.addToCart)
+  .patch("/update", auth.protect, cartController.updateCartItem)
+  .delete("/remove", auth.protect, cartController.removeFromCart)
+  .delete("/clear", auth.protect, cartController.clearCart);
 
-module.exports = router; 
+module.exports = router;

@@ -1,12 +1,12 @@
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-import User from './models/User.js';
-import Product from './models/Product.js';
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const User = require('./models/User');
+const Product = require('./models/Product');
 
 dotenv.config();
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/shoe-store')
+mongoose.connect(process.env.MongoDB_URI || 'mongodb://localhost:27017/shoe-store')
   .then(() => console.log('Connected to MongoDB'))
   .catch((error) => console.error('MongoDB connection error:', error));
 
@@ -18,10 +18,10 @@ const seedData = async () => {
 
     // Create admin user
     const adminUser = await User.create({
-      username: 'admin',
+      name: 'Admin User',
       email: process.env.ADMIN_EMAIL,
       password: process.env.ADMIN_PASSWORD,
-      isAdmin: true
+      role: 'admin'
     });
   
     console.log('Admin user created:', adminUser.email);
@@ -33,8 +33,8 @@ const seedData = async () => {
         description: 'Timeless leather sneakers perfect for casual wear. Features premium leather upper and comfortable cushioning.',
         price: 79.99,
         images: [
-          'https://example.com/images/sneaker1.jpg',
-          'https://example.com/images/sneaker1-alt.jpg'
+          'https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80'
         ],
         brand: 'ClassicWear',
         category: 'casual',
@@ -51,8 +51,8 @@ const seedData = async () => {
         description: 'Elegant oxford shoes for formal occasions. Made with genuine leather and featuring a classic design.',
         price: 129.99,
         images: [
-          'https://example.com/images/oxford1.jpg',
-          'https://example.com/images/oxford1-alt.jpg'
+          'https://images.unsplash.com/photo-1614252369475-531eba835eb1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1582897085656-c636d006a246?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80'
         ],
         brand: 'FormalFit',
         category: 'formal',
@@ -69,8 +69,8 @@ const seedData = async () => {
         description: 'Lightweight and breathable running shoes with advanced cushioning technology.',
         price: 99.99,
         images: [
-          'https://example.com/images/running1.jpg',
-          'https://example.com/images/running1-alt.jpg'
+          'https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80'
         ],
         brand: 'SportMax',
         category: 'sports',
@@ -87,8 +87,8 @@ const seedData = async () => {
         description: 'Durable hiking boots with waterproof membrane and excellent traction.',
         price: 149.99,
         images: [
-          'https://example.com/images/boots1.jpg',
-          'https://example.com/images/boots1-alt.jpg'
+          'https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1608256246200-53e635b5b65f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80'
         ],
         brand: 'TrailMaster',
         category: 'boots',

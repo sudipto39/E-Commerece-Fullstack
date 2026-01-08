@@ -12,7 +12,7 @@ const hpp = require("hpp");
 const connectDB = require("./config/db");
 const globalErrorHandler = require("./middleware/globalErrorHandler");
 const AppError = require("./utils/appError");
-const User = require("./models/User");
+// const User = require("./models/User");
 
 const authRoutes = require("./routes/authRoutes");
 const productRoutes = require("./routes/productRoutes");
@@ -31,16 +31,14 @@ connectDB();
 
 app.use(express.json({ limit: "10kb" }));
 app.use(morgan("dev"));
-app.use(cors());
+app.use(cors({
+  origin: ["http://localhost:3000", "http://localhost:5173"],
+  credentials: true,
+}));
 app.use(helmet());                                       // Set security HTTP headers
 app.use(xss());                                         // Prevent XSS attacks
 app.use(mongoSanitize());                              // Prevent NoSQL injection
-app.use(hpp());          
-
-// app.use(cors({
-//   origin: ["http://localhost:3000", "http://localhost:5173"],
-//   credentials: true,
-// }))
+app.use(hpp());
 
 // Rate limiter (prevent brute force attacks)
 
@@ -61,9 +59,9 @@ app.use("/api/v1/cart", cartRoutes);
 app.use("/api/v1/payment", paymentRoutes);
 
 
-app.all("*", (req, _res, next) => {
-  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
-});
+// app.all("*", (req, _res, next) => {
+//   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+// });
 
 app.use(globalErrorHandler);
 

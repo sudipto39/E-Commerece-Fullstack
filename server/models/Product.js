@@ -94,7 +94,16 @@ const productSchema = new mongoose.Schema({
 
 // Calculate total stock from sizes
 productSchema.pre('save', function(next) {
-  this.totalStock = this.sizes.reduce((total, size) => total + size.stock, 0);
+  if (this.sizes && this.sizes.length > 0) {
+    this.totalStock = this.sizes.reduce((total, size) => total + size.stock, 0);
+  }
+  next();
+});
+
+productSchema.pre('findOneAndUpdate', function(next) {
+  if (this._update && this._update.sizes && this._update.sizes.length > 0) {
+    this._update.totalStock = this._update.sizes.reduce((total, size) => total + size.stock, 0);
+  }
   next();
 });
 
