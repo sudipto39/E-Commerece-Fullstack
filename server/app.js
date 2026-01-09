@@ -47,6 +47,11 @@ app.use("/api", limiter);
 // Create default admin user
 createAdminUser();
 
+//root route
+app.get("/", (req, res) => {
+  res.send("ShopXpress API is running 🚀");
+});
+
 // Routes
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/products", productRoutes);
