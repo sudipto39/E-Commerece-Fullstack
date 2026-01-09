@@ -5,6 +5,7 @@ import { ShoppingBagIcon, MoonIcon, SunIcon } from '@heroicons/react/24/outline'
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import { useTheme } from '../../context/ThemeContext';
+import { safeCapitalize } from '../../utils/helpers';
 
 const Layout = () => {
   const { user, isAuthenticated, isAdmin, logout } = useAuth();
@@ -64,7 +65,7 @@ const Layout = () => {
                       <Menu.Button className="flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
                         <span className="sr-only">Open user menu</span>
                         <div className="h-8 w-8 rounded-full bg-primary-600 text-white flex items-center justify-center">
-                          {user.username.charAt(0).toUpperCase()}
+                          {safeCapitalize(user?.username).charAt(0)}
                         </div>
                       </Menu.Button>
                       <Transition
