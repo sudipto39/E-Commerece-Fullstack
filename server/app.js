@@ -9,7 +9,7 @@ const hpp = require("hpp");
 
 const connectDB = require("./config/db");
 const globalErrorHandler = require("./middleware/globalErrorHandler");
-// const AppError = require("./utils/appError");
+const AppError = require("./utils/appError");
 
 const authRoutes = require("./routes/authRoutes");
 const productRoutes = require("./routes/productRoutes");
@@ -52,6 +52,10 @@ app.get("/", (req, res) => {
   res.send("ShopXpress API is running 🚀");
 });
 
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 // Routes
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/products", productRoutes);
@@ -61,9 +65,9 @@ app.use("/api/v1/cart", cartRoutes);
 app.use("/api/v1/payment", paymentRoutes);
 
 // Handle unknown routes
-// app.all("*", (req, _res, next) => {
-//   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
-// });
+app.all("*", (req, _res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+});
 
 // Global error handler
 app.use(globalErrorHandler);

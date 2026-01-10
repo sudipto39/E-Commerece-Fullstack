@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Toaster } from "react-hot-toast";
 
 import Layout from "./components/layout/Layout";
@@ -23,18 +23,26 @@ import { CartProvider } from "./context/CartContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import ErrorBoundary from "./components/ErrorBoundary";
 
-function App() {
+import api from "./utils/axios";
 
-  // 🔥 OPTION B: AUTO-WAKE BACKEND (RENDER FREE PLAN FIX)
+function App() {
+  const backendWarmedUp = useRef(false);
+
+  // 🔥 AUTO-WAKE BACKEND (Render free plan safe solution)
   useEffect(() => {
+    if (backendWarmedUp.current) return;
+    backendWarmedUp.current = true;
+
     const wakeBackend = async () => {
       try {
-        await fetch(
-          `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/`
-        );
-      } catch (err) {
-        // Silent fail — backend may still be sleeping
-        console.log("Backend wake-up ping sent");
+        // Prefer /health if exists, fallback to /
+        await api.get("/health");
+      } catch {
+        try {
+          await api.get("/");
+        } catch {
+          // Silent fail – retry handled inside pages
+        }
       }
     };
 
